@@ -1,0 +1,13 @@
+{
+  "identifier": "compass-os",
+  "name": "Compass OS",
+  "version": "1.0.0",
+  "description": "Your career in your AI app: tracked roles, profile, resumes, wins and interview stories. Changes wait for your yes. Needs a Compass OS account on Plus or Pro.",
+  "author": "Compass OS",
+  "authorUrl": "https://compass-os.dev",
+  "homepage": "https://compass-os.dev/mcp",
+  "cloudEndpoint": "https://compass-os.dev/api/mcp",
+  "category": "productivity",
+  "icon": "https://raw.githubusercontent.com/tsinovoi/compass-os-mcp/main/logo.png",
+  "tags": ["career", "job-search", "resume", "interview-practice", "linkedin", "remote-mcp", "oauth"]
+}

@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "compass-os": {
+      "url": "https://compass-os.dev/api/mcp"
+    }
+  }
+}
