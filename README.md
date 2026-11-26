@@ -13,7 +13,7 @@ This repository holds the connection docs only. The server is hosted by Compass 
 | Sign-in | OAuth 2.1 (you sign in to Compass OS from your app) |
 | Plan | A Compass OS account on **Plus or Pro** ([pricing](https://compass-os.dev/#pricing)) |
 | Docs | [compass-os.dev/mcp](https://compass-os.dev/mcp) |
-| Official MCP Registry | `io.github.tsinovoi/compass-os` |
+| Official MCP Registry | `dev.compass-os/compass` |
 
 ## Connect it
 
@@ -109,22 +109,74 @@ See [llms-install.md](llms-install.md). In short, add this to `cline_mcp_setting
 
 Each answer comes from your own Compass OS account. Nothing else in your account is shared.
 
-- **Today and this week:** your next setup step, the one most urgent move, and what's due this week.
-- **Your search:** every role you track and where it stands, the best fits from your last scan, one role's posting, recruiter mail not yet matched to a job, and public web pages when you ask it to look something up.
+- **Your next step and your plan:** one card picked from your account: your next setup step, today's most urgent move, or what's due this week; or ask for any of the three. And your career plan: your goal, the gaps between your work and the roles you track for it, and this week's steps.
+- **Your search:** every role you track and where it stands, a role's to-dos and notes, the best fits from your last scan, one role's posting, recruiter mail not yet matched to a job, companies you follow, and public web pages when you ask it to look something up.
 - **Your profile and resume:** your profile, its gaps, Resume Studio's check, your master, tailored resumes and cover letters, your wins log and career timeline, your Rewind, your LinkedIn profile's audit, and your LinkedIn drafts in Brand studio.
 - **Your interviews:** your story bank, practice progress and scored answers, practice cases and mock interviews to play in the card, saved interview prep and company research, and posted pay for the roles you search.
 
 ## What it changes only with your yes
 
-Track a role from its posting and score your fit; move or remove a role; edit your profile; draft a tailored resume or cover letter, or save your edits to one; apply Resume Studio's edits; update your LinkedIn headline and About; write or edit a LinkedIn draft; log, edit or delete a win; save an interview story; make interview prep and company research for a role. Your AI app can ask for any of these, but nothing saves until you press yes on the card. It never applies, posts or contacts the company.
+Set or change your career goal; track a role from its posting and score your fit; move or remove a role; add a to-do or a note on a role, or check a to-do off; follow a company; edit your profile, a line at a time if you like, or call two roles at one company a promotion or a role change; draft a tailored resume or cover letter, or save your edits to one; apply Resume Studio's edits; update your LinkedIn headline and About; write or edit a LinkedIn draft; log, edit or delete a win; save an interview story; make interview prep and company research for a role. Your AI app can ask for any of these, but nothing saves until you press yes on the card. For 24 hours after, the card has an Undo button, and your AI app can ask to undo the change, again with your yes. A mock interview you play in the card saves its score when you choose to score and save it. Ask it to upgrade and the card shows Plus, Pro, the 7-day pass or a credit pack with its price and whether it renews; you pay on Stripe's page, never in the chat (ChatGPT links to the plans page instead). It never applies, posts or contacts the company.
 
 In apps that don't show cards, you get the same answer as text, and a link to finish a change in Compass OS.
 
 ## Tools
 
-The server's tools, as listed by `tools/list` on 2026-11-04:
+The server's model-facing tools, as registered by the Compass OS MCP server on 2026-11-26 (from `src/lib/crew/tools.ts` and `src/lib/crew/mcp.ts` in [tsinovoi/compass-os](https://github.com/tsinovoi/compass-os)). Writes wait for your yes on a confirmation card.
 
-`today`, `week`, `next_step`, `readiness`, `pipeline`, `find_jobs`, `job_details`, `track_job`, `move_job`, `remove_jobs`, `inbox`, `pay_range`, `web_search`, `read_page`, `get_profile`, `update_profile`, `add_profile_line`, `profile_gaps`, `link_roles`, `career_timeline`, `resume_check`, `edit_resume`, `get_material`, `tailor_material`, `edit_material`, `wins`, `log_win`, `edit_win`, `delete_win`, `rewind`, `linkedin_audit`, `update_linkedin`, `brand`, `create_draft`, `edit_draft`, `story_bank`, `add_story`, `practice`, `cases`, `mock_interview`, `interview_prep`, `make_interview_prep`
+### Reads
+
+- `get_next_step` — Your next setup step, today's most urgent move, or the week's plan; or one card picked from your account
+- `career_plan` — Your career goal, the gaps for that goal, and this week's steps on the plan
+- `list_pipeline` — Every role you track, with stage, Requirements match, and a link to its card
+- `find_jobs` — The best untracked roles from your last scan, ranked by Role fit
+- `get_job` — One role's posting, pay, stage and score, from the pipeline or the last scan
+- `list_todos` — A tracked role's to-dos, next step, and job-page history
+- `search_web` — Search the open web for roles, companies or people
+- `read_page` — Read one public web page, and pull out a posting's details when it is one
+- `list_inbox` — Recruiter mail not yet matched to a job, and upcoming interviews
+- `get_profile` — Your profile, one section, one role, or its gaps
+- `list_wins` — Your wins log
+- `get_career_timeline` — Your career as a timeline of employers and wins
+- `get_rewind` — A Rewind of your wins (year, role, career or date range), with share images
+- `check_resume` — Resume Studio's check on the master resume or a tailored resume
+- `get_material` — The master resume, or a tracked role's tailored resume or cover letter
+- `list_stories` — Your interview story bank
+- `get_interview_prep` — Saved interview prep and company research for a tracked role
+- `get_pay_range` — Posted pay for the roles you search
+- `list_companies` — Companies you follow, with new roles and posted pay
+- `audit_linkedin` — The score of your saved LinkedIn headline and About, with the top fixes (Compass OS's copy, not LinkedIn itself)
+- `list_brand_posts` — Your LinkedIn drafts, scheduled and published pieces in Brand studio
+- `get_practice` — Your practice path, streak and scored answers
+- `list_cases` — Practice cases and recent mock interview scores
+- `start_mock_interview` — Start a ready-made mock interview in a card; the score saves when you finish in the card
+
+### Writes (wait for your yes)
+
+- `set_goal` — Save or change your career goal
+- `upgrade` — Open a Stripe payment page for Plus, Pro, the 7-day pass or a credit pack; nothing is charged in the chat. Not listed in ChatGPT, which gets a link to the plans page instead
+- `track_job` — Add a role to your pipeline and, given a posting URL, save the posting and score your fit
+- `move_job` — Move a tracked role to another stage
+- `remove_jobs` — Remove tracked roles
+- `add_todo` — Add a to-do on a tracked role
+- `complete_todo` — Check off a to-do on a tracked role
+- `add_note` — Add a dated note on a tracked role
+- `update_profile` — Replace a profile section or a role's accomplishments
+- `add_profile_line` — Add one accomplishment line to a role in your profile
+- `link_roles` — Record whether two roles at the same company were a promotion, a role change, or separate jobs
+- `update_linkedin` — Save a new LinkedIn headline and/or About for you to paste; never posts to LinkedIn
+- `log_win` — Log a win
+- `edit_win` — Edit a logged win
+- `delete_win` — Delete a logged win
+- `edit_resume` — Apply a Resume Studio edit (fix, shorten, add keywords, or improve a bullet)
+- `tailor_material` — Draft a tailored resume or cover letter for a tracked role
+- `edit_material` — Save your own edits to the master resume or a role's resume or cover letter
+- `add_story` — Save a new interview story
+- `make_interview_prep` — Make or remake interview prep and/or company research for a tracked role
+- `follow_company` — Follow a company so new roles and posted pay are checked weekly
+- `create_draft` — Save a new LinkedIn draft in Brand studio; never posts
+- `edit_draft` — Edit a LinkedIn draft in Brand studio; never posts
+- `undo` — Put back a save from the last 24 hours, again with your yes
 
 ## Privacy
 
